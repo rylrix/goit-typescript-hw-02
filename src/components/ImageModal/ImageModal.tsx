@@ -22,7 +22,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ isOpen, onClose, image }) => {
       onRequestClose={onClose}
       overlayClassName={s.overlay}
       className={s.modal}
-      onClick={handleClose}
+      shouldCloseOnOverlayClick={true}
     >
       {image && <img src={image} className={s.img} alt="Selected" />}
     </Modal>
