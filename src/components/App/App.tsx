@@ -1,21 +1,30 @@
+import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import "./App.css";
-import { fetchImages } from "../services/api";
-import Loader from "./Loader/Loader";
-import ImageGallery from "./ImageGallery/ImageGallery";
-import { SearchBar } from "./SearchBar/SearchBar";
-import ImageModal from "./ImageModal/ImageModal";
-import ErrorMessage from "./ErrorMessage/ErrorMessage";
-import toast from "react-hot-toast";
+import Loader from "../Loader/Loader";
+import ImageGallery from "../ImageGallery/ImageGallery";
+import { SearchBar } from "../SearchBar/SearchBar";
+import ImageModal from "../ImageModal/ImageModal";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import { fetchImages } from "../../services/api";
 
-function App() {
-  const [images, setImages] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+interface UnsplashImage {
+  id: string;
+  urls: {
+    small: string;
+    regular: string;
+  };
+  alt_description: string;
+}
+
+const App: React.FC = () => {
+  const [images, setImages] = useState<UnsplashImage[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [query, setQuery] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     const getImagesData = async () => {
@@ -40,16 +49,14 @@ function App() {
     setPage((prev) => prev + 1);
   };
 
-  const handleChangeQuery = (newQuery) => {
-    if (newQuery === query) {
-      return;
-    }
+  const handleChangeQuery = (newQuery: string) => {
+    if (newQuery === query) return;
     setQuery(newQuery);
     setImages([]);
     setPage(1);
   };
 
-  const handleClickImage = (imageUrl) => {
+  const handleClickImage = (imageUrl: string) => {
     setSelectedImage(imageUrl);
     setIsModalOpen(true);
   };
@@ -77,6 +84,6 @@ function App() {
       />
     </>
   );
-}
+};
 
 export default App;
